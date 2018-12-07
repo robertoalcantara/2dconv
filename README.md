@@ -1,2 +1,3 @@
 # 2dconv
-2DConvolution_VHDL
+2D Convolution in VHDL
+Home work ;-)
