@@ -1,36 +1,11 @@
 --------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
--- Create Date:   00:04:43 12/09/2018
--- Design Name:   
 -- Module Name:   /home/robertoalcantara/Documents/Xilinx/Conv/conv2d_tb.vhd
 -- Project Name:  Conv
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
 -- VHDL Test Bench Created by ISE for module: conv2d
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
---
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
- 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
+
  
 ENTITY conv2d_tb IS
 END conv2d_tb;
@@ -82,7 +57,6 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin		
-      -- hold reset state for 100 ns.
 	  reset <= '1';
       wait for 1 ns;	
 	  reset <= '0';
@@ -91,7 +65,6 @@ BEGIN
 	 
       wait for clk_period*10;
 
-      -- insert stimulus here 
 
       wait;
    end process;
