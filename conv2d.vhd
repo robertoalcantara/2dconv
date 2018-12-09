@@ -42,9 +42,9 @@ architecture Behavioral of conv2d is
 	
 	type t_kernel_const is array (0 to 8) of integer; --atencao contagem TO 
 	constant kernel : t_kernel_const := ( 
-	1,1,1,
-	1,1,1,
-	1,1,1);
+	-1,-1,-1,
+	-1, 8,-1,
+	-1,-1,-1);
 --		"00000001", "00000001", "00000001" ,
 --		"00000001", "00000001", "00000001" ,
 --		"00000001", "00000001", "00000001" );
