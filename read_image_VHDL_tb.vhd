@@ -12,7 +12,7 @@ ARCHITECTURE behavior OF tb_read_image_vhdl IS
     PORT(
          clock : IN  std_logic;
          data : IN  std_logic_vector(7 downto 0);
-         rdaddress : IN  std_logic_vector(10 downto 0);
+         rdaddress : IN  std_logic_vector(12 downto 0);
          wraddress : IN  std_logic_vector(10 downto 0);
          we : IN  std_logic;
          re : IN  std_logic;
@@ -22,8 +22,8 @@ ARCHITECTURE behavior OF tb_read_image_vhdl IS
    --Inputs
    signal clock : std_logic := '0';
    signal data : std_logic_vector(7 downto 0) := (others => '0');
-   signal rdaddress : std_logic_vector(10 downto 0) := (others => '0');
-   signal wraddress : std_logic_vector(10 downto 0) := (others => '0');
+   signal rdaddress : std_logic_vector(12 downto 0) := (others => '0');
+   signal wraddress : std_logic_vector(12 downto 0) := (others => '0');
    signal we : std_logic := '0';
    signal re : std_logic := '0';
   --Outputs

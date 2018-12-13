@@ -43,8 +43,8 @@ ARCHITECTURE behavior OF controller_tb IS
     PORT(
          reset : IN  std_logic;
          clk : IN  std_logic;
-         fb_in_addr : OUT  std_logic_vector(10 downto 0);
-         fb_out_addr : OUT  std_logic_vector(10 downto 0);
+         fb_in_addr : OUT  std_logic_vector(12 downto 0);
+         fb_out_addr : OUT  std_logic_vector(12 downto 0);
          fb_out_we : OUT  std_logic;
          conv_in : IN  std_logic_vector(7 downto 0)
         );
@@ -58,8 +58,8 @@ ARCHITECTURE behavior OF controller_tb IS
 
  	--Outputs
    signal clk_conv : std_logic;
-   signal fb_in_addr : std_logic_vector(10 downto 0);
-   signal fb_out_addr : std_logic_vector(10 downto 0);
+   signal fb_in_addr : std_logic_vector(12 downto 0);
+   signal fb_out_addr : std_logic_vector(12 downto 0);
    signal fb_out_we : std_logic;
 
    -- Clock period definitions

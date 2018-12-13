@@ -76,14 +76,11 @@ BEGIN
    stim_proc: process
    begin		
 		reset <= '1';
-      wait for 5 ns;	
+      wait for 1 ns;	
 		reset <= '0';
 		
-      wait for clk_period*10;
+      wait for clk_period * 2 * 4510;
 
-      -- insert stimulus here 
-
-      wait;
    end process;
 
 END;

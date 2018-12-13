@@ -22,12 +22,13 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
+use std.textio.all;
 
 entity conv_top is
     Port ( clk : in  STD_LOGIC;
@@ -41,8 +42,8 @@ architecture Behavioral of conv_top is
     PORT(
          reset : IN  std_logic;
          clk : IN  std_logic;
-         fb_in_addr : OUT  std_logic_vector(10 downto 0);
-         fb_out_addr : OUT  std_logic_vector(10 downto 0);
+         fb_in_addr : OUT  std_logic_vector(12 downto 0);
+         fb_out_addr : OUT  std_logic_vector(12 downto 0);
          fb_out_we : OUT  std_logic;
          conv_in : IN  std_logic_vector(7 downto 0)
         );
@@ -50,8 +51,8 @@ architecture Behavioral of conv_top is
 
 	signal conv_in : std_logic_vector(7 downto 0) := (others => '0');
 	signal clk_conv : std_logic;
-	signal fb_in_addr : std_logic_vector(10 downto 0);
-	signal fb_out_addr : std_logic_vector(10 downto 0);
+	signal fb_in_addr : std_logic_vector(12 downto 0);
+	signal fb_out_addr : std_logic_vector(12 downto 0);
 	signal fb_out_we : std_logic;
 	 
 	 
@@ -82,16 +83,16 @@ architecture Behavioral of conv_top is
     PORT(
          clock : IN  std_logic;
          data : IN  std_logic_vector(7 downto 0);
-         rdaddress : IN  std_logic_vector(10 downto 0);
-         wraddress : IN  std_logic_vector(10 downto 0);
+         rdaddress : IN  std_logic_vector(12 downto 0);
+         wraddress : IN  std_logic_vector(12 downto 0);
          we : IN  std_logic;
          re : IN  std_logic;
          q : OUT  std_logic_vector(7 downto 0)
         );
     END COMPONENT;
     signal data_fbin : std_logic_vector(7 downto 0) := (others => '0');
-    signal wraddress_fbin : std_logic_vector(10 downto 0) := (others => '0');
-    signal rdaddress_fout : std_logic_vector(10 downto 0) := (others => '0');
+    signal wraddress_fbin : std_logic_vector(12 downto 0) := (others => '0');
+    signal rdaddress_fout : std_logic_vector(12 downto 0) := (others => '0');
 
 
 	 COMPONENT conv2d
@@ -103,8 +104,13 @@ architecture Behavioral of conv_top is
         );
     END COMPONENT;	 
     signal output_conv : std_logic_vector(7 downto 0);
+	 
+	 file file_output : text; -- open read_mode is mif_file_name;
+    shared variable out_line : line;
+	 	 
+	 signal done : std_logic := '0';
 
-
+	 
 begin
 
 	control: controller PORT MAP (
@@ -171,6 +177,30 @@ begin
           re => '0',
           q => open
         );				  
+		  
+		  
+process( clk  ) begin
+	if (rising_edge(clk) and done='0') then
+      if (fb_out_we = '1') then
+			if (fb_out_addr="0000000000000") then
+				file_open( file_output, "file_output.txt", write_mode );
+				write(out_line, to_bitvector(fb_out_addr)); --output_conv
+				writeline( file_output, out_line); 
+			elsif ( fb_out_addr  /= "1000100000011" ) then
+				write(out_line, to_bitvector(fb_out_addr));
+				writeline( file_output, out_line); 
+			else 
+				done <= '1';
+				file_close(file_output);
+		  end if;
+		end if;
+	end if;
+		
+		
+end process;
 
 end Behavioral;
+
+
+
 

@@ -6,7 +6,7 @@ use std.textio.all;
 -- VHDL tutorial: How to Read images in VHDL
 entity read_image_VHDL is
   generic (
-    ADDR_WIDTH     : integer := 11;        
+    ADDR_WIDTH     : integer := 13;        
     DATA_WIDTH     : integer := 8;
     IMAGE_SIZE  : integer := 4355;
     IMAGE_FILE_NAME : string :="lena66x66_simple.mif"

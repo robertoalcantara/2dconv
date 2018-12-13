@@ -32,8 +32,8 @@ use IEEE.NUMERIC_STD.ALL;
 entity controller is
     Port ( reset : in  STD_LOGIC;
            clk : in  STD_LOGIC;
-           fb_in_addr : out  STD_LOGIC_VECTOR (10 downto 0);
-           fb_out_addr : out  STD_LOGIC_VECTOR (10 downto 0);
+           fb_in_addr : out  STD_LOGIC_VECTOR (12 downto 0);
+           fb_out_addr : out  STD_LOGIC_VECTOR (12 downto 0);
            fb_out_we : out  STD_LOGIC;
            conv_in : in  STD_LOGIC_VECTOR (7 downto 0));
 end controller;
@@ -41,15 +41,15 @@ end controller;
 architecture Behavioral of controller is
 
 	constant LINE_SIZE: integer:= 66; --imagem tem 64, com padding fica 66
-	constant PIXELS_TO_VALID: integer := LINE_SIZE*3; -- para ter uma saida valida preenche 3 linhas
-	constant TOTAL_PIXELS: integer := 4356;
+	constant PIXELS_TO_VALID: integer := (LINE_SIZE*2)+3; -- para ter uma saida valida preenche 2 linhas e 3 bytes
+	constant TOTAL_PIXELS: integer := 4356 + PIXELS_TO_VALID-1;
 	signal cnt, cnt_next: integer;
 	
 	type t_state is (start, out_valid, done); 
 	signal state, state_next : t_state;
 	
 	signal fb_out_we_reg, fb_out_we_next : STD_LOGIC;
-	signal fb_out_addr_reg, fb_out_addr_reg_next: STD_LOGIC_VECTOR (10 downto 0);
+	signal fb_out_addr_reg, fb_out_addr_reg_next, fb_in_addr_reg: STD_LOGIC_VECTOR (12 downto 0);
 	
 	
 begin
@@ -64,9 +64,11 @@ begin
 	state <= start;
 	fb_out_we_reg <= '0';
 	fb_out_addr_reg <= (others=>'0');
+	fb_in_addr_reg <= (others=>'0');
 	
   elsif ( clk'event and clk='1') then
 		cnt <= cnt_next;
+		fb_in_addr_reg <= std_logic_vector( to_unsigned(cnt_next, fb_in_addr_reg'length) );
 		state <= state_next;
 		fb_out_we_reg <= fb_out_we_next;
 		fb_out_addr_reg <= fb_out_addr_reg_next;
@@ -77,7 +79,7 @@ end process;
 
 
 --next-state logic and output logic
-process(cnt, state)
+process(cnt, state, fb_out_addr_reg, fb_out_we_reg )
 begin
 
 	state_next <= state;
@@ -110,11 +112,6 @@ begin
 
 end process;
 
-
-process (cnt)
-begin
-	fb_in_addr <= std_logic_vector( to_unsigned(cnt, fb_in_addr'length) );
-end process;
 
 process( fb_out_we_reg, fb_out_addr_reg )
 begin
