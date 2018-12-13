@@ -6,10 +6,10 @@ use std.textio.all;
 -- VHDL tutorial: How to Read images in VHDL
 entity read_image_VHDL is
   generic (
-    ADDR_WIDTH     : integer := 24;        
+    ADDR_WIDTH     : integer := 11;        
     DATA_WIDTH     : integer := 8;
-    IMAGE_SIZE  : integer := 4356;
-    IMAGE_FILE_NAME : string :="lena64x64_simple.mif"
+    IMAGE_SIZE  : integer := 4355;
+    IMAGE_FILE_NAME : string :="lena66x66_simple.mif"
   );
   port(
     clock: IN STD_LOGIC;
