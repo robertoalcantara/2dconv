@@ -43,13 +43,14 @@ architecture Behavioral of controller is
 	constant LINE_SIZE: integer:= 66; --imagem tem 64, com padding fica 66
 	constant PIXELS_TO_VALID: integer := (LINE_SIZE*2)+3; -- para ter uma saida valida preenche 2 linhas e 3 bytes
 	constant TOTAL_PIXELS: integer := 4356 + PIXELS_TO_VALID-1;
+	constant IMAGE_SIZE: integer := 4356;
 	signal cnt, cnt_next: integer;
 	
 	type t_state is (start, out_valid, done); 
 	signal state, state_next : t_state;
 	
 	signal fb_out_we_reg, fb_out_we_next : STD_LOGIC;
-	signal fb_out_addr_reg, fb_out_addr_reg_next, fb_in_addr_reg: STD_LOGIC_VECTOR (12 downto 0);
+	signal fb_out_addr_reg, fb_out_addr_reg_next, fb_in_addr_reg, fb_in_addr_reg_next: STD_LOGIC_VECTOR (12 downto 0);
 	
 	
 begin
@@ -68,7 +69,7 @@ begin
 	
   elsif ( clk'event and clk='1') then
 		cnt <= cnt_next;
-		fb_in_addr_reg <= std_logic_vector( to_unsigned(cnt_next, fb_in_addr_reg'length) );
+		fb_in_addr_reg <= fb_in_addr_reg_next;
 		state <= state_next;
 		fb_out_we_reg <= fb_out_we_next;
 		fb_out_addr_reg <= fb_out_addr_reg_next;
@@ -86,6 +87,7 @@ begin
 	cnt_next <= cnt;
 	fb_out_we_next <= fb_out_we_reg;
 	fb_out_addr_reg_next <= fb_out_addr_reg;
+   fb_in_addr_reg_next <= fb_in_addr_reg;
 		
 	case state is
 		when start =>
@@ -93,10 +95,15 @@ begin
 				state_next <= out_valid;
 				fb_out_we_next <= '1'; --inicia a gravacao no fb de saida
 			end if;
+			fb_in_addr_reg_next <= std_logic_vector(to_unsigned(  to_integer(unsigned(fb_in_addr_reg))+1  ,fb_in_addr_reg_next'length))  ; --std_logic_vector( to_unsigned(cnt, fb_in_addr_reg'length) );
 			cnt_next <= cnt + 1; 
 
 		when out_valid =>
 			fb_out_addr_reg_next <= std_logic_vector(to_unsigned(   to_integer(unsigned(fb_out_addr_reg))+1  ,fb_out_addr_reg_next'length))  ;
+			
+			if (cnt < IMAGE_SIZE-1) then 
+				fb_in_addr_reg_next <= std_logic_vector(to_unsigned(  to_integer(unsigned(fb_in_addr_reg))+1  ,fb_in_addr_reg_next'length))  ; --std_logic_vector( to_unsigned(cnt, fb_in_addr_reg'length) );
+			end if;
 			
 			if (cnt /= TOTAL_PIXELS-1) then
 				cnt_next <= cnt + 1;
@@ -113,10 +120,11 @@ begin
 end process;
 
 
-process( fb_out_we_reg, fb_out_addr_reg )
+process( fb_out_we_reg, fb_out_addr_reg, fb_in_addr_reg )
 begin
 	fb_out_we <= fb_out_we_reg;
 	fb_out_addr <= fb_out_addr_reg;
+	fb_in_addr  <= fb_in_addr_reg;
 end process;
 
 

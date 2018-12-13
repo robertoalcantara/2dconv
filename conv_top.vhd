@@ -184,10 +184,10 @@ process( clk  ) begin
       if (fb_out_we = '1') then
 			if (fb_out_addr="0000000000000") then
 				file_open( file_output, "file_output.txt", write_mode );
-				write(out_line, to_bitvector(fb_out_addr)); --output_conv
+				write(out_line, to_bitvector(output_conv)); 
 				writeline( file_output, out_line); 
-			elsif ( fb_out_addr  /= "1000100000011" ) then
-				write(out_line, to_bitvector(fb_out_addr));
+			elsif ( fb_out_addr  /= "1000100000011" ) then --4355
+				write(out_line, to_bitvector(output_conv));
 				writeline( file_output, out_line); 
 			else 
 				done <= '1';
