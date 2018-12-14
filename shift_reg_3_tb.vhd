@@ -74,6 +74,12 @@ BEGIN
 	  reset <= '0';
    
 	  input <= "10101010";
+	  wait for 2 ns;
+		input <= "00000011";
+	  wait for 2 ns;
+		input <= "11000000";
+	  wait for 2 ns;
+
 
       wait;
    end process;

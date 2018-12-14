@@ -46,9 +46,9 @@ begin
 		mem(cnt) <= mem(cnt+1);
 	end loop;
 	mem(LINE_SIZE-1) <= input_next;
-    pixel1 <= pixel1_next;
-    pixel2 <= pixel2_next;
-    pixel3 <= pixel3_next;	
+   pixel1 <= pixel1_next;
+   pixel2 <= pixel2_next;
+   pixel3 <= pixel3_next;	
   
   end if;
   
@@ -56,12 +56,12 @@ end process;
 
 
 --next-state logic and output logic
-process(input,mem(0),mem(1),mem(2))
+process(input,mem(0),mem(1),mem(2), mem(3))
 begin
 	input_next <= input;
-	pixel1_next <= mem(1);
-    pixel2_next <= mem(2);
-    pixel3_next <= mem(3);
+	pixel3_next <= mem(1);
+   pixel2_next <= mem(2);
+   pixel1_next <= mem(3);
 end process;
 
 

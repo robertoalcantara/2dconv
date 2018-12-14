@@ -99,11 +99,21 @@ architecture Behavioral of conv_top is
     PORT(
          clk : IN  std_logic;
          reset : IN  std_logic;
-         pixel_input : IN  std_logic_vector(7 downto 0);
+         pixel1_input : IN  std_logic_vector(7 downto 0);
+			pixel2_input : IN  std_logic_vector(7 downto 0);
+         pixel3_input : IN  std_logic_vector(7 downto 0);
+         pixel4_input : IN  std_logic_vector(7 downto 0);
+			pixel5_input : IN  std_logic_vector(7 downto 0);
+         pixel6_input : IN  std_logic_vector(7 downto 0);
+         pixel7_input : IN  std_logic_vector(7 downto 0);
+			pixel8_input : IN  std_logic_vector(7 downto 0);
+         pixel9_input : IN  std_logic_vector(7 downto 0);
+
          output : OUT  std_logic_vector(7 downto 0)
         );
     END COMPONENT;	 
     signal output_conv : std_logic_vector(7 downto 0);
+	 
 	 
 	 file file_output : text; -- open read_mode is mif_file_name;
     shared variable out_line : line;
@@ -163,7 +173,16 @@ begin
 	conv: conv2d PORT MAP (
           clk => clk,
           reset => reset,
-          pixel_input => pixel1_sr3,
+          pixel1_input => pixel1_sr1,
+			 pixel2_input => pixel2_sr1,
+          pixel3_input => pixel3_sr1,
+          pixel4_input => pixel1_sr2,
+          pixel5_input => pixel2_sr2,
+          pixel6_input => pixel3_sr2,
+          pixel7_input => pixel1_sr1,
+          pixel8_input => pixel2_sr2,
+          pixel9_input => pixel3_sr3,
+
           output => output_conv
 	  );
 		  

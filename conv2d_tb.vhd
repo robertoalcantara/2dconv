@@ -18,7 +18,16 @@ ARCHITECTURE behavior OF conv2d_tb IS
     PORT(
          clk : IN  std_logic;
          reset : IN  std_logic;
-         pixel_input : IN  std_logic_vector(7 downto 0);
+         pixel1_input : IN  std_logic_vector(7 downto 0);
+			pixel2_input : IN  std_logic_vector(7 downto 0);
+         pixel3_input : IN  std_logic_vector(7 downto 0);
+         pixel4_input : IN  std_logic_vector(7 downto 0);
+			pixel5_input : IN  std_logic_vector(7 downto 0);
+         pixel6_input : IN  std_logic_vector(7 downto 0);
+         pixel7_input : IN  std_logic_vector(7 downto 0);
+			pixel8_input : IN  std_logic_vector(7 downto 0);
+         pixel9_input : IN  std_logic_vector(7 downto 0);
+
          output : OUT  std_logic_vector(7 downto 0)
         );
     END COMPONENT;
@@ -27,7 +36,16 @@ ARCHITECTURE behavior OF conv2d_tb IS
    --Inputs
    signal clk : std_logic := '0';
    signal reset : std_logic := '0';
-   signal pixel_input : std_logic_vector(7 downto 0) := (others => '0');
+   signal pixel1_input : std_logic_vector(7 downto 0) := (others => '0');
+   signal pixel2_input : std_logic_vector(7 downto 0) := (others => '0');
+   signal pixel3_input : std_logic_vector(7 downto 0) := (others => '0');
+   signal pixel4_input : std_logic_vector(7 downto 0) := (others => '0');
+   signal pixel5_input : std_logic_vector(7 downto 0) := (others => '0');
+   signal pixel6_input : std_logic_vector(7 downto 0) := (others => '0');
+   signal pixel7_input : std_logic_vector(7 downto 0) := (others => '0');
+	signal pixel8_input : std_logic_vector(7 downto 0) := (others => '0');
+   signal pixel9_input : std_logic_vector(7 downto 0) := (others => '0');
+
  	--Outputs
    signal output : std_logic_vector(7 downto 0);
 
@@ -40,7 +58,17 @@ BEGIN
    uut: conv2d PORT MAP (
           clk => clk,
           reset => reset,
-          pixel_input => pixel_input,
+          pixel1_input => pixel1_input,
+			 pixel2_input => pixel2_input,
+			 pixel3_input => pixel3_input,
+			 pixel4_input => pixel4_input,
+			 pixel5_input => pixel5_input,
+			 pixel6_input => pixel6_input,
+			 pixel7_input => pixel7_input,
+			 pixel8_input => pixel8_input,
+			 pixel9_input => pixel9_input,
+			 
+
           output => output
         );
 
@@ -61,8 +89,16 @@ BEGIN
       wait for 1 ns;	
 	  reset <= '0';
 	  
-	  pixel_input <= "00000010";
-	 
+	  pixel1_input <= "00000001";
+ 	  pixel2_input <= "00000010";
+	  pixel3_input <= "00000011";
+	  pixel4_input <= "00000100";
+	  pixel5_input <= "00000101";
+	  pixel6_input <= "00000110";
+	  pixel7_input <= "00000111";
+	  pixel8_input <= "00001000";
+	  pixel9_input <= "00001001";
+
       wait for clk_period*10;
 
 
